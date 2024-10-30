@@ -125,7 +125,7 @@ export async function handler(chatUpdate) {
                 self: false,
                 jadibotmd: false,
                 autobio: false,
-                antiPrivate: true,
+                antiPrivate: false,
                 autoread: false,
                 status: 0
             }
