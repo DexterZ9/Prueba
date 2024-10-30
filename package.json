@@ -1,5 +1,5 @@
 {
-  "name": "Sisked-Bot",
+  "name": "Prueba",
   "version": "5.0.0",
   "description": "Super WhatsApp Bot Multi Device",
   "main": "index.js",
@@ -18,16 +18,16 @@
     "eslint": "eslint .",
     "eslintfix": "eslint --fix ."
   },
-  "homepage": "https://github.com/Sisked-Bot/Sisked-Bot",
+  "homepage": "https://github.com/DexterZ9/Prueba",
   "author": {
     "name": "Sisked"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sisked-Bot/Sisked-Bot.git"
+    "url": "git+https://github.com/DexterZ9/Prueba.git"
   },
   "bugs": {
-    "url": "https://github.com/Sisked-Bot/Sisked-Bot/issues"
+    "url": "https://github.com/DexterZ9/Prueba/issues"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
