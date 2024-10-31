@@ -12,7 +12,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     if (/webp|image|video/g.test(mime)) {
       let img = await q.download?.()
-      if (!img) return conn.reply(m.chat, `⚠️ Responda a una *Imagen* o *Vídeo.*`, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: '✿ 𝐀𝐢𝐫𝐢 ✿', body: '𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅', previewType: 0, thumbnail: catalogo, sourceUrl: 'https://github.com/Rudyrex/Airi-Bot'}}})
+      if (!img) return conn.reply(m.chat, `⚠️ Responda a una *Imagen* o *Vídeo.*`, m)
       let out
       try {
         stiker = await sticker(img, false, global.packname, global.author)
