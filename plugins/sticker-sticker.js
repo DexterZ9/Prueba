@@ -13,8 +13,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     if (/webp|image|video/g.test(mime)) {
       let img = await q.download?.()
-      
-      if (!img) return conn.sendCtx(m.chat, botname, textbot, `🐢 Responde a una *Imagen* o *Vídeo.*`, catalogo, canal, m)
+      let inf = '🐢 Responde a una *Imagen* o *Vídeo.*'
+      if (!img) return conn.sendCtx(m.chat, botname, textbot, inf, catalogo, canal, m)
       let out
       try {
         stiker = await sticker(img, false, global.packname, global.author)
