@@ -6,14 +6,15 @@ import { webp2png } from '../lib/webp2mp4.js'
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let stiker = false
   let username = conn.getName(m.sender)
-  let img = await (await fetch(`https://qu.ax/jYQH.jpg`)).buffer()
+  let image = await (await fetch(`https://qu.ax/jYQH.jpg`)).buffer()
   try {
   	
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     if (/webp|image|video/g.test(mime)) {
       let img = await q.download?.()
-      if (!img) return conn.sendAi(m.chat, botname, textbot, `⚠️ Responde a una *Imagen* o *Vídeo.*`, img, img, canal)
+      
+      if (!img) return conn.sendCtx(m.chat, botname, textbot, `⚠️ Responde a una *Imagen* o *Vídeo.*`, image, canal)
       let out
       try {
         stiker = await sticker(img, false, global.packname, global.author)
