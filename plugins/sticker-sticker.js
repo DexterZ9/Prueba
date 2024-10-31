@@ -6,15 +6,13 @@ import { webp2png } from '../lib/webp2mp4.js'
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let stiker = false
   let username = conn.getName(m.sender)
-  let image = await (await fetch(`https://qu.ax/jYQH.jpg`)).buffer()
   try {
   	
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     if (/webp|image|video/g.test(mime)) {
       let img = await q.download?.()
-      let inf = '🐢 Responde a una *Imagen* o *Vídeo.*'
-      if (!img) return conn.sendCtx(m.chat, botname, textbot, '🐢 Responde a una *Imagen* o *Vídeo.*', catalogo, canal, m)
+      if (!img) return m.reply(`⚠️ Responda a una *Imagen* o *Vídeo.*`)
       let out
       try {
         stiker = await sticker(img, false, global.packname, global.author)
@@ -31,14 +29,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     } else if (args[0]) {
       if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packname, global.author)
-      else return m.reply('La *Url* no es valida')
+      else return m.reply('La *Url* es invalida')
     }
   } catch (e) {
     console.error(e)
     if (!stiker) stiker = e
   } finally {
     if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
-    else return conn.sendCtx(m.chat, botname, textbot, '🐦 Responde a una *Imagen* o *Vídeo.*', catalogo, canal, m)
+    else return m.reply('⚠️ Responda a una *Imagen* o *Vídeo.*')
   }
 }
 handler.help = ['sticker']
