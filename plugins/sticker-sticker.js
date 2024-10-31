@@ -31,7 +31,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       else return m.reply('La *Url* no es valida')
     }
   } catch (e) {
-    console.error(e)
+    console.log(e)
     if (!stiker) stiker = e
   } finally {
     if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
