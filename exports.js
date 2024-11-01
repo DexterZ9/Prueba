@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 export const botnam = '✿ 𝐀𝐢𝐫𝐢 ✿';
 
 export const icon1 = fs.readFileSync('./media/img/icon1.jpg');
