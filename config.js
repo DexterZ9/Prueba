@@ -35,6 +35,12 @@ global.baileys = '@whiskeysockets/baileys'
 global.catalogo = fs.readFileSync('./storage/img/catalogo.png')
 global.miniurl = fs.readFileSync('./media/img/icon2.jpg')
 
+global.icon1 = fs.readFileSync('./media/img/icon1.jpg')
+global.icon2 = fs.readFileSync('./media/img/icon2.jpg')
+global.icon3 = fs.readFileSync('./media/img/icon3.jpg')
+
+global.icons = [ icon1, icon2, icon3 ]
+
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.group = 'https://chat.whatsapp.com/CTaspTXla9T1zA83m6ZKPe'
