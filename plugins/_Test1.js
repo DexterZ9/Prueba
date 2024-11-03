@@ -1,5 +1,5 @@
 let handler = async (m, { conn }) => {
-        m.reply(`Hola 🐼`);
+        conn.reply(`Hola 🐼`);
 }
 handler.command = ['a']
 export default handler
