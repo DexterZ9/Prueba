@@ -1,41 +1,35 @@
-import { igdl } from 'ruhend-scraper';
 
-const handler = async (m, { text, conn, args, usedPrefix, command }) => {
-  if (!args[0]) {
-    return conn.reply(m.chat, '⚠️ Agrega un link de *Facebook*', m);
-  }
+import fetch from 'node-fetch';
 
-  let res;
-  try {
-    res = await igdl(args[0]);
-  } catch (error) {
-    return conn.reply(m.chat, '❌ Error al obtener datos, verifica el enlace', m);
-  }
 
-  let result = res.data;
-  if (!result || result.length === 0) {
-    return conn.reply(m.chat, '❌ No se encontraron resultados', m);
-  }
-
-  let data;
-  try {
-    data = result.find(i => i.resolution === "720p (HD)") || result.find(i => i.resolution === "360p (SD)");
-  } catch (error) {
-    return conn.reply(m.chat, '❌ Error al procesar los datos.', m);
-  }
-
-  if (!data) {
-    return conn.reply(m.chat, '❌ No se encontró una resolución adecuada.', m);
-  }
-
-  let video = data.url;
-  try {
-    await conn.sendMessage(m.chat, { video: { url: video }, caption: null, fileName: 'fb.mp4', mimetype: 'video/mp4' }, { quoted: m });
-  } catch (error) {
-    return conn.reply(m.chat, 'Error al enviar el video.', m);
-  }
+let handler = async (m, { text, conn, args, usedPrefix, command }) => {
+    
+    if (!args[0]) return await conn.reply(m.chat, `⚠️ Agrega un enlace de Facebook*`, m);
+    
+    m.react('⏳')
+    conn.reply(m.chat, '⏳ Descargando el video...', m);
+    
+    try {
+        let api1 = await fetch(`https://deliriussapi-oficial.vercel.app/download/facebook?url=${args[0]}`)    
+        let result1 = await api1.json()
+        let downloadUrl1 = result1.urls.sd;
+        
+        await m.react('✅')
+        await conn.sendMessage(m.chat, { video: { url: downloadUrl1 }, fileName: `Facebook.mp4`, mimetype: 'video/mp4', caption: null }, { quoted: m });
+    } catch (e1) {
+        try {
+            let api2 = await fetch(`https://api.dorratz.com/fbvideo?url=${args[0]}`)    
+            let result2 = await api2.json()
+            let downloadUrl2 = result2.result.sd;
+            
+            await m.react('✅')
+            await conn.sendMessage(m.chat, { video: { url: downloadUrl2 }, fileName: `Facebook.mp4`, mimetype: 'video/mp4', caption: null }, { quoted: m });
+        } catch (e2) {
+            await conn.reply(m.chat, e2.message, m);
+        }
+                
+    }
 };
 
-handler.command = ['fb', 'fbdl'];
-
+handler.command = ['facebook', 'fb', 'fbdl'];
 export default handler;
