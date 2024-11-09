@@ -1,8 +1,8 @@
 
-import { iconRandom } from './exports.js'
+//import { iconRandom } from './exports.js'
 
 let handler = async (m, { conn }) => {
-    let icn = iconRandom;
+    //let icn = iconRandom;
     try {
     let name = await conn.getName(m.sender)
     let thum = 'https://f.uguu.se/bZEQKzcr.jpg'
