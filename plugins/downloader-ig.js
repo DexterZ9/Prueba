@@ -1,16 +1,24 @@
-import Scraper from '@SumiFX/Scraper'
 
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-if (!args[0]) return m.reply('🍭 Ingresa el enlace del vídeo de Instagram junto al comando.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* https://www.instagram.com/reel/CijhxhAD53X/?igsh=amJqMDQ1cW9zOG9s`)
+import axios from 'axios';
 
-try {
-let { dl_url } = await Scraper.igdl(args[0])
-await conn.sendMessage(m.chat, { video: { url: dl_url }, caption: null }, { quoted: m})
-} catch {
-}}
-handler.help = ['instagram <url ig>']
-handler.tags = ['downloader']
-handler.command = ['ig', 'igdl', 'instagram']
-handler.register = true 
-//handler.limit = 1
-export default handler
+const handler = async (m, {conn, args, command, usedPrefix}) => {
+    if (!args[0]) return conn.reply(m.chat,`_*[ ⚠️ ] Agrega el enlace de un video o una publicación de Instagram*_\n\n> Ejemplo:\n.${command} https://www.instagram.com`, m);
+    
+    await conn.reply(m.chat, '_*[ ⏳ ] Descargando...*_', m);
+    try {
+        const responseIg = await axios.get(`https://deliriussapi-oficial.vercel.app/download/instagram?url=${args[0]}`);
+        const resultlIg = responseIg.data;
+
+        for (const item of resultlIg.data) {
+            await conn.sendFile(m.chat, item.url, `file.${item.type === 'video' ? 'mp4' : 'jpg'}`, ``, m);
+        }
+    } catch (e) {
+        conn.sendMessage(m.chat, '_*[ ❌ ] Ocurrió un error, inténtalo más tarde*_', m);
+        console.log(e);
+    }
+};
+
+
+handler.command = ['instagram', 'ig'];
+
+export default handler;
