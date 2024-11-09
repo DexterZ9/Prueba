@@ -36,8 +36,9 @@ let handler = async (m, { conn, isRowner }) => {
 │⥤ *Chats Totales:* ${chats.length}
 │⥤ *Usuarios Registrados:* ${totalreg}
 ╰─${em}──✦`.trim()
-    
-    await conn.sendFile(m.chat, pp, 'thumbnail.jpg', txt, m)
+
+    await conn.reply(m.chat, txt, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: '✿ 𝐀𝐢𝐫𝐢 ✿', body: '𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅', previewType: 0, "renderLargerThumbnail": true, thumbnail: icons.getRandom(), sourceUrl: 'https://github.com/Rudyrex/Airi-Bot'}}});
+    //await conn.sendFile(m.chat, pp, 'thumbnail.jpg', txt, m)
 }
 
 handler.command = ['info']
