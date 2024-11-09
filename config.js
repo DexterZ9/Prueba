@@ -21,13 +21,13 @@ global.prems = []
    
 
 
-global.packname = `𝐃𝐀𝐑𝐋𝐘 𝐁𝐎𝐓 ᡣ𐭩`
-global.author = '{\n "bot": {\n   "name": "𝐃𝐀𝐑𝐋𝐘 𝐁𝐎𝐓 ᡣ𐭩",\n     "author": "Anuar",\n   "status_bot": "active"\n }\n}'
-global.wait = '𝐃𝐀𝐑𝐋𝐘 𝐁𝐎𝐓 ᡣ𐭩'
+global.packname = `Creado por`
+global.author = '✿ 𝐀𝐢𝐫𝐢 ✿'
+global.wait = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.botname = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.textbot = `𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅`
 global.listo = 'Completado ✯'
-global.namechannel = '𝑺𝑰𝑺𝑲𝑬𝑫 𝑩𝑶𝑻'
+global.namechannel = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.baileys = '@whiskeysockets/baileys'
 
 
@@ -41,7 +41,7 @@ global.icon3 = fs.readFileSync('./media/img/icon3.jpg')
 
 global.icons = [ icon1, icon2, icon3 ]
 
-
+global.em = '🍁'
 
 global.group = 'https://chat.whatsapp.com/CTaspTXla9T1zA83m6ZKPe'
 global.canal = 'https://whatsapp.com/channel/0029Vak6H9l3GJP4FJH5063R'
