@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/DexterZ9/Prueba",
   "author": {
-    "name": "DexterZ9"
+    "name": "Sisked"
   },
   "repository": {
     "type": "git",
@@ -85,7 +85,6 @@
         "openai": "^3.3.0",
         "aptoide-scraper": "^1.0.1",
         "megajs": "^1.1.3",
-        "diskusage": "^1.2.0",
         "mime-types": "^2.1.35",
         "api-dylux": "^1.7.2",
         "yargs": "^17.6.0" 
