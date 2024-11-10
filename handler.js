@@ -421,18 +421,18 @@ export async function handler(chatUpdate) {
 
 global.dfail = (type, m, conn, usedPrefix) => {
     let msg = {
-        rowner: `💫 Hola, este comando solo puede ser utilizado por el *Creador* del Bot.`,
-        owner: `💮 Hola, este comando solo puede ser utilizado por el *Creador* del Bot y *Sub Bots*.`,
-        mods: `🌸 Hola, este comando solo puede ser utilizado por los *Moderadores* de la Bot.`,
-        premium: `🩷 Hola, este comando solo puede ser utilizado por Usuarios *Premium*.`,
-        group: `🧸 Hola, este comando solo puede ser utilizado en *Grupos*.`,
-        private: `✨ Hola, este comando solo puede ser utilizado en mi Chat *Privado*.`,
-        admin: `📌 Hola, este comando solo puede ser utilizado por los *Administradores* del Grupo.`,
-        botAdmin: `⭐ Hola, el bot debe ser *Administrador* para ejecutar este Comando.`,
-        unreg: `🧸 Hola, para usar este comando debes estar *Registrado.*\n\nUtiliza: */reg nombre.edad*\n\n> Ejemplo: /reg Darly.17`,
-        restrict: `🦋 Hola, esta característica está *deshabilitada.*`  
+        rowner: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado por el propietario del bot`,
+        owner: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado por el propietario del bot`,
+        mods: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado por los moderadores del bot`,
+        premium: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado por usuarios premium`,
+        group: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado en grupos`,
+        private: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado en el chat privado`,
+        admin: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nEste comando solo puede ser utilizado por los administradores del grupo`,
+        botAdmin: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗Necesito ser administrador para ejecutar este comando`,
+        unreg: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\nPara usar este comando debes estar registrad@\n\nUtiliza: *.reg nombre.edad*\n\nEjemplo: .reg Airi.20`,
+        restrict: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗Este comando está restringido`  
     }[type]
-    if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))
+    if (msg) return conn.reply(m.chat, msg, m).then(_ => m.react('✖️'))
 }
 
 let file = global.__filename(import.meta.url, true)
