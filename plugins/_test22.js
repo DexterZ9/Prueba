@@ -25,6 +25,6 @@ let handler = async (m, { conn, text }) => {
     }
 };
 
-handler.command = ['perfil']; // Puedes cambiar este comando si lo deseas
+handler.command = ['getpp']; // Puedes cambiar este comando si lo deseas
 
 export default handler;
