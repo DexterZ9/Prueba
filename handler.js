@@ -429,7 +429,7 @@ global.dfail = (type, m, conn, usedPrefix) => {
         private: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\n_Este comando solo puede ser utilizado en el chat privado_`,
         admin: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\n_Este comando solo puede ser utilizado por los administradores del grupo_`,
         botAdmin: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗_Necesito ser administrador para ejecutar este comando_`,
-        unreg: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\n_Para usar este comando debes estar registrad@_\n\nUtiliza: *.reg nombre.edad*\n\nEjemplo: .reg Airi.20`,
+        unreg: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\n_Para usar este comando debes estar registrad@_\n\nUtiliza: *.reg nombre.edad*\n\nEjemplo: .reg Airi.17`,
         restrict: `╔────── ¤ ◎ ⚠️ ◎ ¤ ──────╗\n_Este comando está restringido_`  
     }[type]
     if (msg) return conn.reply(m.chat, msg, m).then(_ => m.react('✖️'))
