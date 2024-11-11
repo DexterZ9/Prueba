@@ -1,5 +1,5 @@
 import { sticker } from '../lib/sticker.js'
-import { icon1 } from '../exports.js'
+//import { icon1 } from '../exports.js'
 
 let MessageType = (await import(global.baileys)).default
 import fetch from 'node-fetch'
