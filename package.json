@@ -1,6 +1,6 @@
 {
   "name": "Prueba",
-  "version": "5.0.0",
+  "version": "1.0.0",
   "description": "Super WhatsApp Bot Multi Device",
   "main": "index.js",
   "type": "module",
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/DexterZ9/Prueba",
   "author": {
-    "name": "Sisked"
+    "name": "DexterZ9"
   },
   "repository": {
     "type": "git",
