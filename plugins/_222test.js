@@ -27,7 +27,7 @@ conn.reply(m.chat, text, m, {
             previewType: 0,
             renderLargerThumbnail: true,
             thumbnail: icn,
-            sourceUrl: 'https://github.com/Rudyrex/Airi-Bot'
+            sourceUrl: 'https://raw.githubusercontent.com/DexterZ9/Prueba/refs/heads/main/media/img/icon2.jpg'
         }
     }
 });
