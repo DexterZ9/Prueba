@@ -23,11 +23,11 @@ conn.reply(m.chat, text, m, {
             mediaType: 1,
             description: null,
             title: randomTitle,
-            body: '𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅',
+            body: 'xd',
             previewType: 0,
             renderLargerThumbnail: true,
             thumbnail: icn,
-            sourceUrl: 'https://raw.githubusercontent.com/DexterZ9/Prueba/refs/heads/main/media/img/icon2.jpg'
+            sourceUrl: 'https://www.windy.com/'
         }
     }
 });
