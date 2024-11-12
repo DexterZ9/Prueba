@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-let acertijos = JSON.parse(fs.readFileSync('./acertijos.json', 'utf-8'));
+let acertijos = JSON.parse(fs.readFileSync('../storage/acertijos.json', 'utf-8'));
 let currentRiddle = {};  // Para almacenar el acertijo actual y verificar la respuesta
 
 let handler = async (m, { conn }) => {
