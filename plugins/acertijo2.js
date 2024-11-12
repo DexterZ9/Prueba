@@ -12,7 +12,7 @@ let handler = async (m, { conn }) => {
     await m.reply(`A ver si puedes resolver este acertijo:\n\n${acertijo.question}`);
 };
 
-handler.command = ['acertijo'];
+handler.command = ['acertijo2'];
 
 // Comprobación de la respuesta
 conn.on('chat-update', async (chatUpdate) => {
