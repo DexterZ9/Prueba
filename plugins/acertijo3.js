@@ -2,7 +2,7 @@ import fs from 'fs';
 import similarity from 'similarity';
 const threshold = 0.72;
 
-let acertijos = JSON.parse(fs.readFileSync('./acertijos.json', 'utf-8'));
+let acertijos = JSON.parse(fs.readFileSync('./storage/acertijo.json', 'utf-8'));
 let tekateki = {}; // Almacena los acertijos activos por chat
 
 // Comando para enviar un acertijo
@@ -26,7 +26,7 @@ let handler = async (m, { conn }) => {
     };
 };
 
-handler.command = ['acertijo'];
+handler.command = ['acertijo3'];
 
 // Verificación de respuesta
 handler.before = async function(m) {
