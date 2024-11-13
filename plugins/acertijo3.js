@@ -1,9 +1,8 @@
-
 import fs from 'fs';
 import similarity from 'similarity';
 const threshold = 0.72;
 
-let acertijos = JSON.parse(fs.readFileSync('./storage/acertijo.json', 'utf-8'));
+let acertijos = JSON.parse(fs.readFileSync('./acertijos.json', 'utf-8'));
 let tekateki = {}; // Almacena los acertijos activos por chat
 
 // Comando para enviar un acertijo
@@ -18,13 +17,16 @@ let handler = async (m, { conn }) => {
         response: acertijo.response,
         points: 10, // Cambia los puntos si prefieres
         timer: setTimeout(() => {
-            conn.sendMessage(m.chat, { text: '⏳ Tiempo agotado! El acertijo ha sido cancelado.' });
+            conn.sendMessage(
+                m.chat, 
+                { text: `⏳ Tiempo agotado! El acertijo ha sido cancelado. La respuesta correcta era: *${acertijo.response}*` }
+            );
             delete tekateki[m.chat];
         }, 60000) // Tiempo límite de 1 minuto (60000 ms)
     };
 };
 
-handler.command = ['acertijo3'];
+handler.command = ['acertijo'];
 
 // Verificación de respuesta
 handler.before = async function(m) {
@@ -56,10 +58,12 @@ handler.before = async function(m) {
         } else {
             m.reply('Respuesta incorrecta!');
         }
-    } else if (tekateki[id] && !m.quoted) {
-        // Si hay un acertijo activo pero el mensaje no es una respuesta citada, ignora el mensaje
-        return true;
+    } 
+    // Si no hay acertijo activo pero el mensaje es una respuesta a un acertijo finalizado
+    else if (m.quoted && tekateki[id] === undefined && m.quoted.fromMe) {
+        m.reply('✨ Ese acertijo ya ha terminado!');
     }
 };
 
 export default handler;
+                                                                                                        
