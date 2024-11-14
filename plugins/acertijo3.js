@@ -10,7 +10,7 @@ let handler = async (m, { conn }) => {
     let acertijo = acertijos[Math.floor(Math.random() * acertijos.length)];
     
     // Inicia un nuevo acertijo para el chat
-    let mensajeEnviado = await m.reply(`Aquí tienes un acertijo:\n\n${acertijo.question}`);
+    let mensajeEnviado = await m.reply(`Acertijo:\n\n${acertijo.question}`);
     tekateki[m.chat] = {
         id: mensajeEnviado.id,  // Almacena el ID del mensaje de acertijo
         question: acertijo.question,
@@ -40,7 +40,8 @@ handler.before = async function(m) {
         tekateki[id] &&
         m.quoted && 
         m.quoted.fromMe && // Asegura que el mensaje citado sea del bot
-        m.quoted.id === tekateki[id].id // Compara con el ID almacenado del mensaje de acertijo
+        m.quoted.id === tekateki[id].id && // Compara con el ID almacenado del mensaje de acertijo
+        m.quoted.text.startsWith('Acertijo:') // Verifica que el mensaje citado sea un acertijo
     ) {
         const respuestaUsuario = m.text.toLowerCase().trim();
         const respuestaCorrecta = tekateki[id].response.toLowerCase().trim();
@@ -59,11 +60,11 @@ handler.before = async function(m) {
             m.reply('Respuesta incorrecta!');
         }
     } 
-    // Si no hay acertijo activo pero el mensaje es una respuesta a un acertijo finalizado
-    else if (m.quoted && tekateki[id] === undefined && m.quoted.fromMe) {
+    // Si no hay acertijo activo pero el mensaje es una respuesta a un mensaje con el prefijo "Acertijo:"
+    else if (m.quoted && m.quoted.text.startsWith('Acertijo:') && tekateki[id] === undefined) {
         m.reply('✨ Ese acertijo ya ha terminado!');
     }
 };
 
 export default handler;
-                                                                                                        
+        
