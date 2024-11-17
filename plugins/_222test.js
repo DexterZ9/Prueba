@@ -18,7 +18,7 @@ let handler = async (m, { conn }) => {
         const randomTitle = `✿ 𝐀𝐢𝐫𝐢 ✿ - ${generateRandomCode()}`;
 
         // Descargar la imagen desde la URL y convertirla a un buffer
-        const thumbnailUrl = 'https://qu.ax/pcNPX.jpg';
+        const thumbnailUrl = 'https://qu.ax/nACsi.jpg';
         const thumbnailResponse = await axios.get(thumbnailUrl, { responseType: 'arraybuffer' });
         const thumbnailBuffer = Buffer.from(thumbnailResponse.data);
 
