@@ -1,27 +1,19 @@
+import Scraper from "@SumiFX/Scraper"
 
-import fetch from 'node-fetch';
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+    if (!args[0]) return m.reply('⚠️ Ingresa el enlace del vídeo de YouTube junto al comando.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* https://youtu.be/QSvaCSt8ixs`)
+    if (!args[0].match(/youtu/gi)) return conn.reply(m.chat, `Verifica que el enlace sea de YouTube.`, m)
 
-
-let handler = async (m, { text, conn, args, usedPrefix, command }) => {
-    
-    if (!args[0]) return await conn.reply(m.chat, `⚠️ Agrega un enlace de *YouTube*`, m);
-    let yturl = args[0]
-    m.react('⏳')
-    conn.reply(m.chat, '⏳ Descargando el video...', m);
-    
     try {
-        let api1 = await fetch(`https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${yturl}`)    
-        let result1 = await api1.json()
-        let title1 = result1.data.title;
-        let downloadUrl1 = result1.data.download.url;
+    let { title, size, quality, thumbnail, dl_url } = await Scraper.ytmp4(args[0])
+    if (size.includes('GB') || size.replace(' MB', '') > 250) { return await m.reply('El archivo pesa mas de 250 MB, se canceló la Descarga.')}
+    
+    await conn.sendMessage(m.chat, {document: {url: dl_url}, caption: null, mimetype: 'video/mp4', fileName: `${title}.mp4`}, {quoted: m});
+    } catch {
         
-        await m.react('✅')
-        await conn.sendMessage(m.chat, {document: {url: downloadUrl1}, caption: null, mimetype: 'video/mp4', fileName: `${title1}.mp4`}, {quoted: m});
-        //await conn.sendMessage(m.chat, { video: { url: downloadUrl1 }, fileName: `Facebook.mp4`, mimetype: 'video/mp4', caption: null }, { quoted: m });
-    } catch (e1) {
-        await conn.reply(m.chat, e2.message, m);
     }
-};
+}
 
-handler.command = ['ytvdoc', 'ytmp4doc',];
-export default handler;
+handler.command = ['ytmp4doc', 'ytvdoc']
+
+export default handler
