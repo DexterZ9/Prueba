@@ -26,7 +26,7 @@ conn.reply(m.chat, text, m, {
             body: 'xd',
             previewType: 0,
             renderLargerThumbnail: true,
-            thumbnail: icn,
+            thumbnailUrl: 'https://qu.ax/nACsi.jpg',
             sourceUrl: 'https://www.windy.com/'
         }
     }
