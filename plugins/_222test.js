@@ -1,9 +1,9 @@
-import { iconRandom } from '../exports.js';
+//import { iconRandom } from '../exports.js';
 import axios from 'axios';
 
 let handler = async (m, { conn }) => {
     try {
-        let text = `Hola 🐼`.trim();
+        let text = `Hola 🐼🍁`.trim();
 
         // Generar código aleatorio
         function generateRandomCode(length = 6) {
