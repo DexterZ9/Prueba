@@ -12,8 +12,8 @@ if (command === 't1'){
             body: 'iyrrgbbfrtvv',
             previewType: 0,
             renderLargerThumbnail: true,
-            thumbnailUrl: 'https://qu.ax/zpTHm.jpg',
-            sourceUrl: 'https://qu.ax/zpTHm.jpg'
+            thumbnailUrl: 'https://qu.ax/XvtPr.jpg',
+            sourceUrl: 'https://qu.ax/XvtPr.jpg'
         }
     }
     });
