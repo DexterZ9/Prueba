@@ -5,6 +5,6 @@ const iconUrls = [
 ];
 
 export const getRandomIcon = () => {
-    const randomIcon = Math.floor(Math.random * iconUrls.length);
+    const randomIcon = Math.floor(Math.random() * iconUrls.length);
     return iconUrls[randomIcon];
 };
