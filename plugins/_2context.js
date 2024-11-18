@@ -12,8 +12,8 @@ if (command === 't1'){
             body: 'iyrrgbbfrtvv',
             previewType: 0,
             renderLargerThumbnail: true,
-            thumbnailUrl: 'https://d.uguu.se/NHsiWlYG.jpg',
-            sourceUrl: 'https://d.uguu.se/NHsiWlYG.jpg'
+            thumbnailUrl: 'https://qu.ax/zpTHm.jpg',
+            sourceUrl: 'https://qu.ax/zpTHm.jpg'
         }
     }
     });
