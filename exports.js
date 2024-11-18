@@ -1,21 +1,10 @@
+const iconUrls = [
+    "https://qu.ax/MPeCD.jpg",
+    "https://raw.githubusercontent.com/DexterZ9/Prueba/refs/heads/main/media/img/icon4.jpg",
+    "https://raw.githubusercontent.com/DexterZ9/Prueba/refs/heads/main/media/img/icon5.jpg"
+];
 
-import { readFile } from 'fs/promises';
-
-export const botnam = '✿ 𝐀𝐢𝐫𝐢 ✿';
-
-
-async function loadRandomIcon(){
-    const icons = [
-        './media/img/icon1.jpg',
-        './media/img/icon2.jpg',
-        './media/img/icon3.jpg',
-        './media/img/icon4.jpg',
-        './media/img/icon5.jpg'
-    ];
-    
-    const iconsRandom = icons[Math.floor(Math.random() * icons.length)];
-    
-    return await readFile(iconsRandom);
-}
-
-export const iconRandom = await loadRandomIcon();
+export const getRandomIcon = () => {
+    const randomIcon = Math.floor(Math.random * iconUrls.length);
+    return iconUrls[randomIcon];
+};
