@@ -30,8 +30,8 @@ conn.reply(m.chat, 'prueba2', m, {
             body: '875567754566',
             previewType: 0,
             renderLargerThumbnail: true,
-            thumbnailUrl: 'https://d.uguu.se/ddLCCizD.jpg',
-            sourceUrl: 'https://d.uguu.se/ddLCCizD.jpg'
+            thumbnailUrl: 'https://qu.ax/XvtPr.jpg',
+            sourceUrl: 'https://qu.ax/XvtPr.jpg'
         }
     }
     });
@@ -48,8 +48,8 @@ conn.reply(m.chat, 'prueba3', m, {
             body: '554ytecbbhgc',
             previewType: 0,
             renderLargerThumbnail: true,
-            thumbnailUrl: 'https://d.uguu.se/vQAnsBqC.jpg',
-            sourceUrl: 'https://d.uguu.se/vQAnsBqC.jpg'
+            thumbnailUrl: 'https://qu.ax/MPeCD.jpg',
+            sourceUrl: 'https://qu.ax/MPeCD.jpg'
         }
     }
     });
