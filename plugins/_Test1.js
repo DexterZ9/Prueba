@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
     let thum = 'https://qu.ax/MPeCD.jpg'
     let text = `Hola 🐼`.trim()
     //await conn.sendAiri(m.chat, 'Título Ejemplo', 'Cuerpo Ejemplo', 'Texto Ejemplo', 'https://f.uguu.se/bZEQKzcr.jpg', 'https://ejemplo.com', m);
-
+    m.reply(icon);
         await conn.sendAiri(
     m.chat,
     'Título de Prueba',
