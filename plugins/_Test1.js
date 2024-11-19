@@ -1,5 +1,8 @@
 
 import { getRandomIcon } from '../exports.js';
+import { getRandomThumb } from '../exports.js';
+
+
 
 let handler = async (m, { conn }) => {
     try {
