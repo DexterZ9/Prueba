@@ -18,6 +18,7 @@ let handler = async (m, { conn }) => {
     'Título de Prueba',
     'Descripción de Prueba',
     'Texto Opcional',
+    true,
     icon, // URL de la imagen como thumbnail
     icon, // Fuente del enlace
     m);
