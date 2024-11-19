@@ -9,7 +9,7 @@ let handler = async (m, { conn }) => {
     let text = `Hola 🐼`.trim()
     //await conn.sendAiri(m.chat, 'Título Ejemplo', 'Cuerpo Ejemplo', 'Texto Ejemplo', 'https://f.uguu.se/bZEQKzcr.jpg', 'https://ejemplo.com', m);
     m.reply(icon);
-    await conn.sendAiri(m.chat, text, 'titulo', 'body', true, icon, icon, m);
+    await conn.sendAiri(m.chat, text, 'titulo', 'body', false, icon, icon, m);
         /*
         await conn.sendAiri(
     m.chat,
