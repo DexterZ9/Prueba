@@ -11,9 +11,9 @@ let handler = async (m, { conn }) => {
     let text = `Hola 🐼`.trim()
     
     m.reply(icon);
-    await conn.sendAiri(m.chat, text, 'Titulo de prueba', 'Descripcion de prueba', true, icon, icon, m);
-        /*
-        await conn.sendAiri(
+    //await conn.sendAiri(m.chat, text, 'Titulo de prueba', 'Descripcion de prueba', true, icon, icon, m);
+        
+        await conn.sendAiri2(
     m.chat,
     'Título de Prueba',
     'Descripción de Prueba',
@@ -21,7 +21,7 @@ let handler = async (m, { conn }) => {
     icon, // URL de la imagen como thumbnail
     icon, // Fuente del enlace
     m);
-    */
+    
         
     //conn.reply(m.chat, menu, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: '✿ 𝐀𝐢𝐫𝐢 ✿', body: '𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅', previewType: 0, "renderLargerThumbnail": true, thumbnail: thumb, sourceurl: thumb}}});
     } catch (e) {
