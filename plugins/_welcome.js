@@ -5,7 +5,7 @@ export async function before(m, {conn, participants, groupMetadata}) {
   if (!m.messageStubType || !m.isGroup) return !0;
   
   let top = `*╭─${em}─── ⫍📢⫎ ───${em}─╮*\n`;
-  let bottom `\n*╰─${em}─── ⫍📢⫎ ───${em}─╯*`;
+  let bottom = `\n*╰─${em}─── ⫍📢⫎ ───${em}─╯*`;
   //let pp = await conn.profilePictureUrl(m.messageStubParameters[0], 'image').catch(_ => 'https://qu.ax/jYQH.jpg')
   //let img = await (await fetch(`${pp}`)).buffer()
   let chat = global.db.data.chats[m.chat]
