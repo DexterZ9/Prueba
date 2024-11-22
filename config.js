@@ -26,6 +26,7 @@ global.author = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.wait = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.botname = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.textbot = `𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅`
+global.botdesc = `𝙴𝚕 𝚖𝚎𝚓𝚘𝚛 𝚋𝚘𝚝 𝚍𝚎 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 ✅`
 global.listo = 'Completado ✯'
 global.namechannel = '✿ 𝐀𝐢𝐫𝐢 ✿'
 global.baileys = '@whiskeysockets/baileys'
