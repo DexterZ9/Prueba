@@ -13,7 +13,7 @@ let handler = async (m, { conn }) => {
     m.reply(icon);
     //await conn.sendAiri(m.chat, text, 'Titulo de prueba', 'Descripcion de prueba', true, icon, icon, m);
         
-        await conn.sendAiri2(
+        await conn.sendAiri(
     m.chat,
     'Título de Prueba',
     'Descripción de Prueba',
