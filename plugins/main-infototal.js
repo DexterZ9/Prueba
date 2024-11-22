@@ -37,7 +37,7 @@ let handler = async (m, { conn, isRowner }) => {
 ╰─${em}──✦`.trim()
 
     // Usamos la imagen aleatoria de global.icons
-    await conn.sendAiri(m.chat, botname, botdesc, txt, thumb, null, m)
+    await conn.sendAiri(m.chat, botname, botdesc, txt, true, thumb, null, m)
 }
 
 handler.command = ['info']
