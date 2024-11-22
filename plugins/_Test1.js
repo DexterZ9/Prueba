@@ -77,7 +77,7 @@ ${readMore}
 ├ ⓘ _Desactivar función_
 ╰─❮ ${em} ❯
     `.trim()
-        await conn.sendAiri(m.chat, botname, botdesc, menu, true, thumb, thumb, m);
+        await conn.sendAiri(m.chat, botname, botdesc, menu, true, thumb, null, m);
 }
 handler.command = ['menu', 'menú', 'help', 'comandos']
 export default handler
