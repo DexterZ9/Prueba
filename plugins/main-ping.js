@@ -6,12 +6,11 @@ let handler = async (m, { conn }) => {
          let latensi = speed() - timestamp;
          exec(`neofetch --stdout`, (error, stdout, stderr) => {
           let child = stdout.toString("utf-8");
-          let ssd = child.replace(/Memory:/, "Ram:");
-          m.reply('*`☁️ Mi Velocidad es de:`*' +  ` ${latensi.toFixed(4)} _ms_`);
+          m.reply('📶 *Tiempo de respuesta del servidor:*' +  ` ${latensi.toFixed(4)} _ms_`);
             });
 }
 handler.help = ['ping']
 handler.tags = ['main']
-handler.command = ['ping', 'speed', 'p']
+handler.command = ['ping', 'speed']
 
 export default handler
