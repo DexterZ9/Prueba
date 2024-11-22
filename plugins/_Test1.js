@@ -1,4 +1,7 @@
+import { getRandomThumb } from '../exports.js';
+
 let handler = async (m, { conn }) => {
+    let thumb = getRandomThumb();
     let name = await conn.getName(m.sender)
     let menu = `
 ༺═──────────────═༻
@@ -74,7 +77,7 @@ ${readMore}
 ├ ⓘ _Desactivar función_
 ╰─❮ ${em} ❯
     `.trim()
-        await conn.sendAiri(m.chat, botname, botdesc, menu, true, icon, icon, m);
+        await conn.sendAiri(m.chat, botname, botdesc, menu, true, thumb, thumb, m);
 }
 handler.command = ['menu', 'menú', 'help', 'comandos']
 export default handler
