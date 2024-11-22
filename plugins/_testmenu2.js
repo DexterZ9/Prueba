@@ -20,7 +20,7 @@ let handler = async (m, { conn }) => {
     'Texto Opcional',
     true,
     icon, // URL de la imagen como thumbnail
-    icon, // Fuente del enlace
+    null, // Fuente del enlace
     m);
     
         
