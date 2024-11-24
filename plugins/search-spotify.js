@@ -1,26 +1,96 @@
-import Scraper from '@SumiFX/Scraper'
+import axios from 'axios';
 
-let handler = async (m, { conn, text, args, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, '🍭 Ingresa el título de una canción de Spotify.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Gemini Aaliyah - If Only`, m)
-  try {
-    let Sumi = await Scraper.spotifySearch(text)
-    let img = await (await fetch(`${Sumi[0].thumbnail}`)).buffer()
-    let txt = `╭─⬣「 *Spotify Search* 」⬣\n`
-    for (let i = 0; i < Sumi.length; i++) {
-      txt += ` │  ≡◦ *🐢 Nro ∙* ${i + 1}\n`
-      txt += ` │  ≡◦ *🍭 Titulo ∙* ${Sumi[i].title}\n`
-      txt += ` │  ≡◦ *📚 Artista ∙* ${Sumi[i].artist}\n`
-      txt += ` │  ≡◦ *⛓ Url ∙* ${Sumi[i].url}\n`
-      txt += ` ╰──────────⬣`
-      txt += `\n`
+const {
+  generateWAMessageContent,
+  generateWAMessageFromContent,
+  proto
+} = (await import("@whiskeysockets/baileys"))["default"];
+
+let handler = async (message, { conn, text }) => {
+  if (!text) {
+    return message.reply("_*[ ⚠️ ] Ingresa lo que quieres buscar en Spotify*_");
+  }
+
+  async function createImageMessage(url) {
+    const { imageMessage } = await generateWAMessageContent({
+      'image': { 'url': url }
+    }, { 'upload': conn.waUploadToServer });
+    return imageMessage;
+  }
+/*
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+  }
+*/
+  try {
+    let imageMessages = [];
+    let { data } = await axios.get(`https://deliriussapi-oficial.vercel.app/search/spotify?q=${encodeURIComponent(text)}&limit=15`);
     
-await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m)
-} catch {
-}}
-handler.help = ['spotifysearch <búsqueda>']
-handler.tags = ['search']
-handler.command = ['spotifysearch']
-handler.register = true
 
-export default handler
+    if (!data.data) {
+      return message.reply("⚠️ No se encontraron resultados para la búsqueda");
+    }
+
+    //shuffleArray(data.data);
+    let selectedResults = data.data.splice(0, 15);
+
+    for (let result of selectedResults) {
+      
+
+      imageMessages.push({
+        'body': proto.Message.InteractiveMessage.Body.fromObject({
+          'text': `╭─${em}──✦\n│⥤📝 *Titulo:* ${result.title}\n│⥤👤 *Artista:* ${result.artist}\n│⥤⏱️ *Duración:* ${result.duration}\n│⥤🌐 *Publicado:* ${result.publish}\n│⥤⭐ *Popularidad:* ${result.popularity}\n│⥤🔗 *Link:* ${result.url}\n╰─${em}──✦`
+        }),
+        'footer': proto.Message.InteractiveMessage.Footer.fromObject({
+          'text': ""
+        }),
+        'header': proto.Message.InteractiveMessage.Header.fromObject({
+          'title': "", 
+          'hasMediaAttachment': true,
+          'imageMessage': await createImageMessage(result.image)
+        }),
+        'nativeFlowMessage': proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          
+        })
+      });
+    }
+
+    const finalMessage = generateWAMessageFromContent(message.chat, {
+      'viewOnceMessage': {
+        'message': {
+          'messageContextInfo': {
+            'deviceListMetadata': {},
+            'deviceListMetadataVersion': 2
+          },
+          'interactiveMessage': proto.Message.InteractiveMessage.fromObject({
+            'body': proto.Message.InteractiveMessage.Body.create({
+              'text': "*Resultados de:* " + text
+            }),
+            'footer': proto.Message.InteractiveMessage.Footer.create({
+              'text': ""
+            }),
+            'header': proto.Message.InteractiveMessage.Header.create({
+              'hasMediaAttachment': false
+            }),
+            'carouselMessage': proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+              'cards': [...imageMessages]
+            })
+          })
+        }
+      }
+    }, { 'quoted': message });
+
+    await conn.relayMessage(message.chat, finalMessage.message, { 'messageId': finalMessage.key.id });
+
+  } catch (error) {
+    console.error(error);
+    message.reply("_*[ ❌ ] Hubo un error al buscar. Inténtalo de nuevo más tarde.*_");
+  }
+};
+
+handler.command = ['spotifysearch', 'spotifys'];
+
+export default handler;
