@@ -29,7 +29,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   try {
     let { data } = await axios.get(`https://api-airi.vercel.app/google-images?query=${encodeURIComponent(text)}`);
     if (data.status && data.results.length > 0) {
-      let imageUrls = data.results.map(result => result.url);
+      let imageUrls = data.results.map(result => results.url);
       shuffleArray(imageUrls);
       let selectedImages = imageUrls.splice(0, 10);
       let count = 1;
@@ -83,7 +83,8 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
       message.reply("_*[ ⚠️ ] No se encontraron imágenes para esta búsqueda*_");
     }
   } catch (error) {
-    message.reply("_*[ ⚠️ ] Error al buscar imágenes. Inténtalo de nuevo más tarde._*");
+    message.reply("_*[ ⚠️ ] Error al buscar imágenes. Inténtalo de nuevo más tarde*_");
+    message.reply(error.message);
     console.error(error);
   }
 };
