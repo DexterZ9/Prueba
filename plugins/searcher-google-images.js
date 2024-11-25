@@ -29,7 +29,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   try {
     let { data } = await axios.get(`https://api-airi.vercel.app/google-images?query=${encodeURIComponent(text)}`);
     if (data.status && data.results.length > 0) {
-      let imageUrls = data.results.map(result => results.url);
+      let imageUrls = data.results.map(result => result.url);
       shuffleArray(imageUrls);
       let selectedImages = imageUrls.splice(0, 10);
       let count = 1;
