@@ -40,7 +40,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         'header': proto.Message.InteractiveMessage.Header.fromObject({
           'title': video.title,
           'hasMediaAttachment': true,
-          'videoMessage': await generateVideoMessage(video.hd)
+          'videoMessage': await generateVideoMessage(videos.hd)
         }),
         'nativeFlowMessage': proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ 'buttons': [] })
       });
