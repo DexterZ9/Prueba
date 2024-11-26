@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const {
   generateWAMessageContent,
   generateWAMessageFromContent,
@@ -10,49 +11,61 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     return conn.reply(m.chat, "⚠️ Ingresa el texto de lo que quieres buscar en TikTok", m);
   }
 
+  async function generateVideoMessage(url) {
+    const { videoMessage } = await generateWAMessageContent(
+      { 'video': { 'url': url } },
+      { 'upload': conn.waUploadToServer }
+    );
+    return videoMessage;
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
   try {
-    const { data } = await axios.get(`https://deliriussapi-oficial.vercel.app/search/tiktoksearch?query=${text}`);
-    const videos = data.meta.slice(0, 6); // Obtén solo los primeros 6 resultados.
+    let results = [];
+    let { data } = await axios.get(`https://deliriussapi-oficial.vercel.app/search/tiktoksearch?query=${text}`);
+    let videos = data.meta;
+    shuffleArray(videos);
+    let topVideos = videos.splice(0, 6);
 
-    const results = [];
-    for (const video of videos) {
-      const videoMessage = await generateWAMessageContent(
-        { video: { url: video.hd } },
-        { upload: conn.waUploadToServer }
-      );
-
-      const content = proto.Message.fromObject({
-        interactiveMessage: {
-          header: {
-            text: video.title,
-          },
-          body: {
-            text: `Autor: ${video.author.nickname}\nReproducciones: ${video.play}`
-          },
-          footer: {
-            text: "TikTok - Search"
-          },
-          buttons: [
-            {
-              buttonId: video.url,
-              buttonText: { displayText: "Ver en TikTok" },
-              type: 1
-            }
-          ]
-        }
+    for (let video of topVideos) {
+      results.push({
+        'body': proto.Message.InteractiveMessage.Body.fromObject({ 'text': null }),
+        'footer': proto.Message.InteractiveMessage.Footer.fromObject({ 'text': author }),
+        'header': proto.Message.InteractiveMessage.Header.fromObject({
+          'title': video.title,
+          'hasMediaAttachment': true,
+          'videoMessage': await generateVideoMessage(video.hd)
+        }),
+        'nativeFlowMessage': proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ 'buttons': [] })
       });
-
-      results.push(content);
     }
 
-    for (const result of results) {
-      await conn.relayMessage(m.chat, result, { messageId: m.key.id });
-    }
+    const responseMessage = generateWAMessageFromContent(m.chat, {
+      'viewOnceMessage': {
+        'message': {
+          'messageContextInfo': { 'deviceListMetadata': {}, 'deviceListMetadataVersion': 2 },
+          'interactiveMessage': proto.Message.InteractiveMessage.fromObject({
+            'body': proto.Message.InteractiveMessage.Body.create({ 'text': `*Resultado de:* ${text}` }),
+            'footer': proto.Message.InteractiveMessage.Footer.create({ 'text': "TikTok - Search" }),
+            'header': proto.Message.InteractiveMessage.Header.create({ 'hasMediaAttachment': false }),
+            'carouselMessage': proto.Message.InteractiveMessage.CarouselMessage.fromObject({ 'cards': results })
+          })
+        }
+      }
+    }, { 'quoted': m });
+
+    await conn.relayMessage(m.chat, responseMessage.message, { 'messageId': responseMessage.key.id });
   } catch (e) {
-    console.error(e);
-    conn.reply(m.chat, "⚠️ Ocurrió un error al buscar los videos de TikTok.", m);
+    console.log(e);
   }
 };
+
 
 handler.command = ["tiktoksearch", "tts", "tiktoks"];
 
