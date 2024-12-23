@@ -11,7 +11,7 @@ const handler = async (m, { conn, args, command, usedPrefix }) => {
         await conn.reply(m.chat, `_*[ ⏳ ] Descargando mp3...*_`, m);
         
         if (command==='dlspotify') {
-            const apiUrl = `https://deliriusapi-official.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`;
+            const apiUrl = `https://deliriussapi-oficial.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`;
             const response = await fetch(apiUrl);
             const data = await response.json();
 
@@ -27,7 +27,7 @@ const handler = async (m, { conn, args, command, usedPrefix }) => {
         }
         
         if (command==='dlspotifydoc'){
-            const apiUrl = `https://deliriusapi-official.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`;
+            const apiUrl = `https://deliriussapi-oficial.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`;
             const response = await fetch(apiUrl);
             const data = await response.json();
 
