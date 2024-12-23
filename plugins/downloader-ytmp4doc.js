@@ -20,7 +20,7 @@ let handler = async (m, { text, conn, args, usedPrefix, command }) => {
         await conn.sendMessage(m.chat, {document: {url: downloadUrl1}, caption: null, mimetype: 'video/mp4', fileName: `${title1}.mp4`}, {quoted: m});
         
     } catch (e1) {
-        await conn.reply(m.chat, e2.message, m);
+        await conn.reply(m.chat, e1.message, m);
     }
 };
 
