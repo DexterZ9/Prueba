@@ -1,17 +1,17 @@
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
 let handler = async (m, { conn, text }) => {
   // Crear la carpeta 'tmp' si no existe
-  const tmpDir = path.join(__dirname, 'tmp');
+  const tmpDir = path.join(process.cwd(), 'tmp'); // Usamos process.cwd() para la ruta raíz del proyecto
   if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
   }
 
   // Verificar que el usuario haya proporcionado un prompt
   if (!text) {
-    return m.reply('Por favor, proporciona un prompt para generar la imagen. Ejemplo: .genimg Un paisaje futurista');
+    return m.reply('Por favor, proporciona un prompt para generar la imagen. Ejemplo: .genimg Un paisaje futurista.');
   }
 
   const filePath = path.join(tmpDir, 'image.png');
@@ -90,4 +90,3 @@ let handler = async (m, { conn, text }) => {
 
 handler.command = ['genimg']; // Comando para generar la imagen
 export default handler;
-                   
