@@ -11,7 +11,7 @@ let handler = async (m, { conn, text }) => {
 
   // Verificar que el usuario haya proporcionado un prompt
   if (!text) {
-    return m.reply('Por favor, proporciona un prompt para generar la imagen. Ejemplo: .genimg Un paisaje futurista.');
+    return m.reply('Por favor, proporciona un prompt para generar la imagen.\n\nEjemplo:\n*.genimg un paisaje futurista*');
   }
 
   const filePath = path.join(tmpDir, 'image.png');
@@ -69,7 +69,7 @@ let handler = async (m, { conn, text }) => {
   };
 
   try {
-    m.reply('Generando imagen, espera un momento...');
+    m.reply('🖼️ Generando imagen...');
     
     // Generar la imagen
     const generatedImagePath = await venice.txt2img(text);
