@@ -1,4 +1,5 @@
-import Pinterest from "pinterest.js";
+
+import * as Pinterest from "pinterest.js";
 
 const pinterest = new Pinterest();
 
