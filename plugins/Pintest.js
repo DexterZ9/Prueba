@@ -33,5 +33,5 @@ let handler = async (m, { conn, text }) => {
     }
 };
 
-handler.command = ['pintest'];
+handler.command = ['pintest', 'pin56'];
 export default handler;
