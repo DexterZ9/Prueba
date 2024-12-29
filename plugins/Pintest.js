@@ -1,7 +1,7 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url); // Crea un cargador `require`
 
-import * as Pinterest from "pinterest.js";
-
-const pinterest = new Pinterest();
+const Pinterest = require("pinterest.js"); // Importa el módulo usando `require`
 
 let handler = async (m, { conn, text }) => {
     if (!text) {
@@ -11,7 +11,8 @@ let handler = async (m, { conn, text }) => {
     try {
         m.reply(`Buscando pines sobre: "${text}"...`);
 
-        // Realiza la búsqueda con Pinterest.js
+        // Crea una instancia de Pinterest y realiza la búsqueda
+        const pinterest = new Pinterest();
         const results = await pinterest.searchPins(text, { limit: 15 });
 
         if (!results.response || results.response.length === 0) {
@@ -19,7 +20,7 @@ let handler = async (m, { conn, text }) => {
         }
 
         // Formatea los resultados para enviarlos
-        const pins = results.response.map((pin, index) => 
+        const pins = results.response.map((pin, index) =>
             `${index + 1}. Título: ${pin.title || "Sin título"}\n` +
             `Enlace: ${pin.link || "No disponible"}\n` +
             `Imagen: ${pin.image_url || "No disponible"}`
@@ -34,5 +35,5 @@ let handler = async (m, { conn, text }) => {
     }
 };
 
-handler.command = ['pintest', 'pin56'];
+handler.command = ['pin56'];
 export default handler;
