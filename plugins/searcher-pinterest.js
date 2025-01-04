@@ -31,7 +31,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
     let { data } = await axios.get(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`);
 
     if (data.status && data.results.length > 0) {
-      let imageUrls = data.results.map(result => result.image);
+      let imageUrls = data.results.map(result => results.image);
       shuffleArray(imageUrls);
       let selectedImages = imageUrls.splice(0, 10);
 
