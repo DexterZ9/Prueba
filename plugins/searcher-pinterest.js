@@ -6,43 +6,47 @@ const {
   proto
 } = (await import("@whiskeysockets/baileys"))["default"];
 
-let handler = async (message, { conn, text, usedPrefix, command }) => {
+let handler = async (message, { conn, text }) => {
   if (!text) {
     return message.reply("_*[ ⚠️ ] Ingresa el texto de lo que quieres buscar en Pinterest*_");
   }
 
   async function createImageMessage(url) {
-    const { imageMessage } = await generateWAMessageContent(
-      { image: { url: url } },
-      { upload: conn.waUploadToServer }
-    );
-    return imageMessage;
-  }
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+    try {
+      const { imageMessage } = await generateWAMessageContent(
+        { image: { url: url } },
+        { upload: conn.waUploadToServer }
+      );
+      return imageMessage;
+    } catch (error) {
+      console.error("Error creando ImageMessage:", error);
+      return null;
     }
   }
 
-  let imageMessages = [];
   try {
+    // Llamada a la API
     let { data } = await axios.get(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`);
+    console.log("Respuesta de la API:", data);
 
     if (data.status && data.results.length > 0) {
-      let imageUrls = data.results.map(result => results.image);
-      shuffleArray(imageUrls);
-      let selectedImages = imageUrls.splice(0, 10);
+      let imageUrls = data.results.map(result => result.image);
+      if (imageUrls.length === 0) throw new Error("No se encontraron URLs de imágenes.");
 
-      for (let imageUrl of selectedImages) {
-        imageMessages.push({
-          header: proto.Message.InteractiveMessage.Header.fromObject({
-            hasMediaAttachment: true,
-            imageMessage: await createImageMessage(imageUrl)
-          })
-        });
+      let imageMessages = [];
+      for (let imageUrl of imageUrls.slice(0, 10)) {
+        let imageMessage = await createImageMessage(imageUrl);
+        if (imageMessage) {
+          imageMessages.push({
+            header: proto.Message.InteractiveMessage.Header.fromObject({
+              hasMediaAttachment: true,
+              imageMessage: imageMessage
+            })
+          });
+        }
       }
+
+      if (imageMessages.length === 0) throw new Error("No se pudieron crear mensajes de imagen.");
 
       const finalMessage = generateWAMessageFromContent(
         message.chat,
@@ -64,17 +68,18 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
         { quoted: message }
       );
 
+      console.log("Mensaje final:", finalMessage);
       await conn.relayMessage(message.chat, finalMessage.message, { messageId: finalMessage.key.id });
     } else {
       message.reply("_*[ ⚠️ ] No se encontraron imágenes para esta búsqueda*_");
     }
   } catch (error) {
+    console.error("Error en el handler:", error);
     message.reply("_*[ ⚠️ ] Error al buscar imágenes. Inténtalo de nuevo más tarde*_");
-    console.error(error);
   }
 };
 
 handler.command = ['pinterest', 'pinimages'];
 
 export default handler;
-  
+      
