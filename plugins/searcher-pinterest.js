@@ -12,9 +12,10 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   }
 
   async function createImageMessage(url) {
-    const { imageMessage } = await generateWAMessageContent({
-      image: { url: url }
-    }, { upload: conn.waUploadToServer });
+    const { imageMessage } = await generateWAMessageContent(
+      { image: { url: url } },
+      { upload: conn.waUploadToServer }
+    );
     return imageMessage;
   }
 
@@ -27,10 +28,10 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 
   let imageMessages = [];
   try {
-    let { data } = await axios.get(`https://deliriussapi-oficial.vercel.app/search/pinterest?text=${encodeURIComponent(text)}`);
+    let { data } = await axios.get(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`);
 
-    if (data.status && data.result.length > 0) {
-      let imageUrls = data.result;
+    if (data.status && data.results.length > 0) {
+      let imageUrls = data.results.map(result => result.image);
       shuffleArray(imageUrls);
       let selectedImages = imageUrls.splice(0, 10);
 
@@ -43,21 +44,25 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
         });
       }
 
-      const finalMessage = generateWAMessageFromContent(message.chat, {
-        viewOnceMessage: {
-          message: {
-            messageContextInfo: {},
-            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-              body: proto.Message.InteractiveMessage.Body.create({
-                text: `*Resultado de:* ${text}`
-              }),
-              carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
-                cards: [...imageMessages]
+      const finalMessage = generateWAMessageFromContent(
+        message.chat,
+        {
+          viewOnceMessage: {
+            message: {
+              messageContextInfo: {},
+              interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+                body: proto.Message.InteractiveMessage.Body.create({
+                  text: `*Resultado de:* ${text}`
+                }),
+                carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+                  cards: [...imageMessages]
+                })
               })
-            })
+            }
           }
-        }
-      }, { quoted: message });
+        },
+        { quoted: message }
+      );
 
       await conn.relayMessage(message.chat, finalMessage.message, { messageId: finalMessage.key.id });
     } else {
@@ -72,4 +77,4 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 handler.command = ['pinterest', 'pinimages'];
 
 export default handler;
-        
+  
