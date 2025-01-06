@@ -89,6 +89,6 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = ['goimg', 'googleimages'];
+handler.command = ['goimg', 'googleimg'];
 
 export default handler;
