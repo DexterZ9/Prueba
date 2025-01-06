@@ -8,7 +8,7 @@ const {
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return message.reply("_*[ ⚠️ ] Ingresa el texto de lo que quieres buscar en imágenes de Google*_");
+    return message.reply("_*[ ⚠️ ] Ingresa el texto de lo que quieres buscar en Pinterest*_");
   }
 
   async function createImageMessage(url) {
