@@ -27,8 +27,15 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 
   let imageMessages = [];
   try {
-    let { data } = await axios.get(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`);
-    if (data.status && data.results.length > 0) {
+    //let { data } = await axios.get(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`);
+    let { data } = await axios.get(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`, {
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (compatible; Bot/1.0)'
+  }
+});
+    
+    
+      if (data.status && data.results.length > 0) {
       let imageUrls = data.results.map(result => result.image);
       shuffleArray(imageUrls);
       let selectedImages = imageUrls.splice(0, 10);
