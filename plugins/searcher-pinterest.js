@@ -15,10 +15,10 @@ let handler = async (m, { conn, text }) => {
             // Selecciona 3 imágenes aleatorias
             const randomImages = data.results
                 .sort(() => 0.5 - Math.random())
-                .slice(0, 3);
+                .slice(0, 5);
 
             for (const img of randomImages) {
-                await conn.sendFile(m.chat, img.image, 'pinterest.jpg', img.title || 'Aquí tienes una imagen:', m);
+                await conn.sendFile(m.chat, img.image, 'pinterest.jpg', '', m);
             }
         } else {
             m.reply('No se encontraron imágenes para tu búsqueda. Intenta con otra palabra clave.');
