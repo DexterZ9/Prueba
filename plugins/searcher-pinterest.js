@@ -1,5 +1,40 @@
 
 
+import fetch from 'node-fetch';
+
+let handler = async (m, { conn, text }) => {
+    if (!text) {
+        return m.reply('Por favor, indica lo que deseas buscar. Ejemplo: .pinterest gatos');
+    }
+
+    try {
+        const res = await fetch(`https://api.dorratz.com/v2/pinterest?query=${encodeURIComponent(text)}`);
+        const data = await res.json();
+
+        if (data.status && data.results.length > 0) {
+            // Selecciona 3 imágenes aleatorias
+            const randomImages = data.results
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3);
+
+            for (const img of randomImages) {
+                await conn.sendFile(m.chat, img.image, 'pinterest.jpg', img.title || 'Aquí tienes una imagen:', m);
+            }
+        } else {
+            m.reply('No se encontraron imágenes para tu búsqueda. Intenta con otra palabra clave.');
+        }
+    } catch (error) {
+        console.error(error);
+        m.reply('Hubo un error al obtener las imágenes. Por favor, intenta nuevamente.');
+    }
+};
+
+handler.command = ['pinterest'];
+export default handler;
+
+
+
+/*
 const {
   generateWAMessageContent,
   generateWAMessageFromContent,
@@ -93,7 +128,7 @@ handler.command = ['pinterest', 'pinimages'];
 
 export default handler;
                                             
-
+*/
 
 /*
 import axios from 'axios';
