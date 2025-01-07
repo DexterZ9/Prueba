@@ -49,7 +49,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     console.error(e)
     if (!stiker) stiker = e
   } finally {
-    if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', fkontak)
+    if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
     else return m.reply('🧐 Responda a una *Imagen* o *Vídeo.*')
   }
 }
