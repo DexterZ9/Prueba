@@ -39,7 +39,7 @@ _*🎶 Enviando música...*_`.trim();
 
         //＼／＼／＼／＼／＼／ DESCARGAR ＼／＼／＼／＼／＼／
     
-        const apiUrl = `https://deliriussapi-oficial.vercel.app/download/spotifydl?url=${encodeURIComponent(url)}`;
+        const apiUrl = `https://delirius-apiofc.vercel.app/download/spotifydl?url=${encodeURIComponent(url)}`;
         const response = await fetch(apiUrl);
         const result = await response.json();
         
