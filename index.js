@@ -26,66 +26,49 @@ say('Sisked\nBot', {
 
 let isRunning = false;
 
-async function start(files) {
+async function start(file) {
   if (isRunning) return;
   isRunning = true;
 
-  for (const file of files) {
-    const currentFilePath = new URL(import.meta.url).pathname;
-    let args = [join(__dirname, file), ...process.argv.slice(2)];
-    say([process.argv[0], ...args].join(' '), {
-      font: 'console',
-      align: 'center',
-      gradient: ['red', 'magenta'],
-    });
+  const args = [join(__dirname, file), ...process.argv.slice(2)];
+  setupMaster({ exec: args[0], args: args.slice(1) });
 
-    setupMaster({
-      exec: args[0],
-      args: args.slice(1),
-    });
+  let p = fork();
 
-    let p = fork();
+  p.on('message', (data) => {
+    switch (data) {
+      case 'reset':
+        console.log('🔄 Reiniciando el bot...');
+        p.kill(); // Termina el proceso hijo
+        isRunning = false;
+        setTimeout(() => start(file), 1000); // Reinicia con retraso
+        break;
+      case 'uptime':
+        p.send(process.uptime());
+        break;
+    }
+  });
 
-    p.on('message', (data) => {
-      console.log('[RECEIVED]', data);
-      switch (data) {
-        case 'reset':
-          console.log('🔄 Reiniciando el bot...');
-          p.kill(); // Cierra el proceso secundario
-          isRunning = false;
-
-          // Retarda un poco el reinicio para evitar conflictos
-          setTimeout(() => start(files), 1000);
-          break;
-        case 'uptime':
-          p.send(process.uptime());
-          break;
-      }
-    });
-
-    p.on('exit', (_, code) => {
-      isRunning = false;
-      console.error('Ocurrió un error inesperado:', code);
-      if (code === 0) return;
-
+  p.on('exit', (_, code) => {
+    isRunning = false;
+    if (code !== 0) {
+      console.error('Error inesperado:', code);
       watchFile(args[0], () => {
         unwatchFile(args[0]);
-        start(files);
+        start(file);
       });
-    });
-
-    let opts = new Object(
-      yargs(process.argv.slice(2)).exitProcess(false).parse()
-    );
-
-    if (!opts['test']) {
-      if (!rl.listenerCount()) {
-        rl.on('line', (line) => {
-          p.emit('message', line.trim());
-        });
-      }
     }
+  });
+
+  const opts = new Object(
+    yargs(process.argv.slice(2)).exitProcess(false).parse()
+  );
+
+  if (!opts['test'] && !rl.listenerCount()) {
+    rl.on('line', (line) => {
+      p.emit('message', line.trim());
+    });
   }
 }
 
-start(['starlights.js']);
+start('starlights.js'); // Archivo principal del bot
