@@ -1,5 +1,5 @@
 
-
+import { apis } from '../exports.js';
 import fetch from 'node-fetch';
 import { ytmp4 } from 'ruhend-scraper';
 
@@ -12,7 +12,7 @@ let handler = async (m, { conn, args }) => {
 
     try {
         // Primer intento: API principal
-        let api1 = await fetch(`https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${yturl}`);
+        let api1 = await fetch(`${apis.delirius}download/ytmp4?url=${yturl}`);
         let result1 = await api1.json();
 
         if (result1.data && result1.data.title && result1.data.download && result1.data.download.url) {
