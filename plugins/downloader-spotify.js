@@ -1,4 +1,5 @@
 
+import { apis } from '../exports.js';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, args, command, usedPrefix }) => {
@@ -10,8 +11,8 @@ const handler = async (m, { conn, args, command, usedPrefix }) => {
 
         await conn.reply(m.chat, `_*[ ⏳ ] Descargando mp3...*_`, m);
         
-        if (command==='dlspotify') {
-            const apiUrl = `https://deliriussapi-oficial.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`;
+        if (command==='spotifydl') {
+            const apiUrl = `${apis.delirius}download/spotifydl?url=${encodeURIComponent(args[0])}`;
             const response = await fetch(apiUrl);
             const data = await response.json();
 
@@ -27,7 +28,7 @@ const handler = async (m, { conn, args, command, usedPrefix }) => {
         }
         
         if (command==='dlspotifydoc'){
-            const apiUrl = `https://deliriussapi-oficial.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`;
+            const apiUrl = `${apis.delirius}download/spotifydl?url=${encodeURIComponent(args[0])}`;
             const response = await fetch(apiUrl);
             const data = await response.json();
 
@@ -47,5 +48,5 @@ const handler = async (m, { conn, args, command, usedPrefix }) => {
     }
 };
 
-handler.command = ['dlspotify', 'dlspotifydoc'];
+handler.command = ['spotifydl', 'dlspotifydoc'];
 export default handler;
