@@ -1,3 +1,5 @@
+
+import { apis } from '../exports.js';
 import axios from 'axios';
 
 const {
@@ -20,7 +22,7 @@ let handler = async (message, { conn, text }) => {
 
   try {
     let imageMessages = [];
-    let { data } = await axios.get(`https://deliriussapi-oficial.vercel.app/search/ytsearch?q=${encodeURIComponent(text)}`);
+    let { data } = await axios.get(`${apis.delirius}search/ytsearch?q=${encodeURIComponent(text)}`);
     
 
     if (!data.data) {
