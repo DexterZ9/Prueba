@@ -1,3 +1,10 @@
+
+export const apis = {
+  delirius: 'https://delirius-apiofc.vercel.app/',
+  cloudseek: 'https://cloudseek-api.vercel.app/',
+  dorratz: 'https://api.dorratz.com/',
+};
+
 const iconUrls = [
     "https://raw.githubusercontent.com/DexterZ9/Prueba/refs/heads/main/src/img/icon1.jpg",
     "https://raw.githubusercontent.com/DexterZ9/Prueba/refs/heads/main/src/img/icon2.jpg",
