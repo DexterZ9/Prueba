@@ -27,7 +27,7 @@ let handler = async (m, { conn, isRowner }) => {
 │⥤ *Nombre:* Airi
 │⥤ *Versión:* 1.0.0
 │⥤ *Creador:* Rudy
-│⥤ *GitHub:* https://github.com/DexterZ9/Prueba
+│⥤ *GitHub:* —
 │⥤ *Ping:* ${ping} ms
 │⥤ *Tiempo Activo:* ${muptime}
 │⥤ *Chats Privados:* ${chats.length - groupsIn.length} 
