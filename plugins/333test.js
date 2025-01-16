@@ -60,7 +60,7 @@ handler.handleSelection = async (message, { conn, text }) => {
 };
 
 // Asociar los comandos
-handler.command = ['spotifysearch', 'spotifys'];
+handler.command = ['spotifysearch', 'spotifys2'];
 handler.selectionCommand = handler.handleSelection;
 
 export default handler;
