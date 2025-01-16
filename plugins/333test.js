@@ -16,16 +16,16 @@ let handler = async (message, { conn, text }) => {
 
     // Crear un mensaje con los resultados numerados
     let response = `🎵 *Resultados para:* ${text}\n\n`;
-    data.data.forEach((result, index) => {
+    const links = data.data.map((result, index) => {
       response += `${index + 1}. *${result.title}* - ${result.artist}\n`;
       response += `   ⏱️ ${result.duration} | 🌐 Publicado: ${result.publish}\n`;
+      return result.url;
     });
 
     response += "\n_Responde con el número del resultado para seleccionarlo._";
 
     // Enviar los resultados y guardar los enlaces en el mensaje citado
-    const quotedMessage = await conn.reply(message.chat, response, message);
-    quotedMessage.links = data.data.map(result => result.url); // Guardar los enlaces en el mensaje citado
+    await conn.reply(message.chat, response, message, { contextInfo: { links } });
 
   } catch (error) {
     console.error(error);
@@ -33,26 +33,29 @@ let handler = async (message, { conn, text }) => {
   }
 };
 
+handler.command = ['spotifysearch', 'test123'];
+
 // Manejo de selección del usuario
-handler.handleSelection = async (message, { conn, text }) => {
+handler.handleQuotedResponse = async (message, { conn, text }) => {
+  // Verificar si el mensaje es una respuesta válida a un mensaje citado
   if (
     message.quoted && 
-    message.quoted.sender === conn.user.jid &&
-    message.quoted.body.includes("Resultados para")
+    message.quoted.contextInfo && 
+    message.quoted.contextInfo.links
   ) {
-    // Validar si el mensaje contiene solo un número
+    // Validar si el texto es un número
     if (/^\d+$/.test(text)) {
-      const selectedIndex = Number(text) - 1; // Convertir a índice
-      const links = message.quoted.links; // Obtener los enlaces guardados
+      const selectedIndex = Number(text) - 1; // Convertir el número a índice
+      const links = message.quoted.contextInfo.links; // Obtener los enlaces guardados
 
-      // Validaciones
-      if (!links || selectedIndex < 0 || selectedIndex >= links.length) {
+      // Validar si el índice está dentro del rango
+      if (selectedIndex < 0 || selectedIndex >= links.length) {
         return message.reply("⚠️ El número ingresado no corresponde a ningún resultado.");
       }
 
-      // Enviar el enlace correspondiente
+      // Enviar el enlace seleccionado
       const selectedLink = links[selectedIndex];
-      await conn.reply(message.chat, `✅ Aquí tienes el enlace:\n${selectedLink}`, message);
+      return conn.reply(message.chat, `✅ Aquí tienes el enlace:\n${selectedLink}`, message);
     } else {
       return message.reply("⚠️ Por favor, ingresa solo un número válido.");
     }
@@ -60,7 +63,5 @@ handler.handleSelection = async (message, { conn, text }) => {
 };
 
 // Asociar los comandos
-handler.command = ['spotifysearch', 'spotifys2'];
-handler.selectionCommand = handler.handleSelection;
-
 export default handler;
+    
