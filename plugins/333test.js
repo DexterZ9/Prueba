@@ -1,9 +1,11 @@
 import { apis } from '../exports.js';
 import axios from 'axios';
 
-let handler = async (message, { conn, text }) => {
+let searchResults = {}; // Variable global para almacenar los resultados temporalmente
+
+let handler = async (m, { conn, text }) => {
   if (!text) {
-    return message.reply("_*[ ⚠️ ] Ingresa lo que quieres buscar en Spotify*_");
+    return m.reply("_*[ ⚠️ ] Ingresa lo que quieres buscar en Spotify*_");
   }
 
   try {
@@ -11,7 +13,7 @@ let handler = async (message, { conn, text }) => {
     const { data } = await axios.get(`${apis.delirius}search/spotify?q=${encodeURIComponent(text)}&limit=15`);
 
     if (!data.data) {
-      return message.reply("⚠️ No se encontraron resultados para la búsqueda.");
+      return m.reply("⚠️ No se encontraron resultados para la búsqueda.");
     }
 
     // Crear un mensaje con los resultados numerados
@@ -19,53 +21,51 @@ let handler = async (message, { conn, text }) => {
     const links = data.data.map((result, index) => {
       response += `${index + 1}. *${result.title}* - ${result.artist}\n`;
       response += `   ⏱️ ${result.duration} | 🌐 Publicado: ${result.publish}\n`;
-      response += `   🔗 ${result.url}\n\n`;
       return result.url;
     });
 
     response += "\n_Responde con el número del resultado para seleccionarlo._";
 
-    // Enviar el mensaje con los resultados
-    await conn.reply(message.chat, response, message);
+    // Guardar los enlaces temporalmente usando el ID del chat
+    searchResults[m.chat] = links;
 
-    // Guardar los enlaces en memoria temporal
-    conn.tempLinks = conn.tempLinks || {};
-    conn.tempLinks[message.chat] = links;
+    // Enviar el mensaje con los resultados
+    await conn.reply(m.chat, response, m);
 
   } catch (error) {
     console.error(error);
-    message.reply("_*[ ❌ ] Hubo un error al buscar. Inténtalo de nuevo más tarde.*_");
+    m.reply("_*[ ❌ ] Hubo un error al buscar. Inténtalo de nuevo más tarde.*_");
   }
 };
 
-// Manejo de respuestas al mensaje
-handler.handleResponse = async (message, { conn, text }) => {
-  // Verificar si hay enlaces temporales para el chat
-  if (conn.tempLinks && conn.tempLinks[message.chat]) {
-    const links = conn.tempLinks[message.chat];
+// Manejo de mensajes con números
+conn.on("chat-update", async (update) => {
+  if (!update.messages) return;
 
-    // Validar que el texto sea un número
-    if (/^\d+$/.test(text)) {
-      const selectedIndex = Number(text) - 1;
+  const m = update.messages[0];
+  const chatId = m.key.remoteJid;
+  const text = m.message?.conversation || "";
 
-      // Validar que el índice sea válido
-      if (selectedIndex < 0 || selectedIndex >= links.length) {
-        return message.reply("⚠️ El número ingresado no corresponde a ningún resultado.");
-      }
+  // Verificar si hay resultados guardados para este chat
+  if (searchResults[chatId] && /^\d+$/.test(text)) {
+    const links = searchResults[chatId];
+    const index = parseInt(text, 10) - 1;
 
-      // Responder con el enlace seleccionado
-      const selectedLink = links[selectedIndex];
-      return conn.reply(message.chat, `✅ Aquí tienes el enlace:\n${selectedLink}`, message);
-    } else {
-      return message.reply("⚠️ Por favor, ingresa solo un número válido.");
+    // Validar el índice ingresado
+    if (index < 0 || index >= links.length) {
+      return conn.reply(chatId, "⚠️ El número ingresado no corresponde a ningún resultado.", m);
     }
-  } else {
-    return message.reply("⚠️ No hay resultados disponibles para seleccionar. Realiza una búsqueda primero.");
-  }
-};
 
-// Asociar los comandos
+    // Enviar el enlace correspondiente
+    const selectedLink = links[index];
+    await conn.reply(chatId, `✅ Aquí tienes el enlace:\n${selectedLink}`, m);
+
+    // Opcional: Limpiar los resultados después de usarlos
+    delete searchResults[chatId];
+  }
+});
+
 handler.command = ['spotifysearch', 'sp888'];
 
 export default handler;
-                                
+        
