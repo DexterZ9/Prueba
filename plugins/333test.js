@@ -33,35 +33,34 @@ let handler = async (message, { conn, text }) => {
   }
 };
 
-handler.command = ['spotifysearch', 'test123'];
-
-// Manejo de selección del usuario
+// Manejo de respuestas al mensaje citado
 handler.handleQuotedResponse = async (message, { conn, text }) => {
-  // Verificar si el mensaje es una respuesta válida a un mensaje citado
-  if (
-    message.quoted && 
-    message.quoted.contextInfo && 
-    message.quoted.contextInfo.links
-  ) {
-    // Validar si el texto es un número
-    if (/^\d+$/.test(text)) {
-      const selectedIndex = Number(text) - 1; // Convertir el número a índice
-      const links = message.quoted.contextInfo.links; // Obtener los enlaces guardados
+  // Verificar si es un mensaje citado con enlaces guardados
+  if (message.quoted && message.quoted.contextInfo && message.quoted.contextInfo.links) {
+    const links = message.quoted.contextInfo.links;
 
-      // Validar si el índice está dentro del rango
+    // Validar que el texto sea un número
+    if (/^\d+$/.test(text)) {
+      const selectedIndex = Number(text) - 1;
+
+      // Validar que el índice sea válido
       if (selectedIndex < 0 || selectedIndex >= links.length) {
         return message.reply("⚠️ El número ingresado no corresponde a ningún resultado.");
       }
 
-      // Enviar el enlace seleccionado
+      // Responder con el enlace seleccionado
       const selectedLink = links[selectedIndex];
       return conn.reply(message.chat, `✅ Aquí tienes el enlace:\n${selectedLink}`, message);
     } else {
       return message.reply("⚠️ Por favor, ingresa solo un número válido.");
     }
+  } else {
+    return message.reply("⚠️ Por favor, responde a un mensaje con resultados.");
   }
 };
 
 // Asociar los comandos
+handler.command = ['spotifysearch', 'sp888'];
+
 export default handler;
-    
+                                
