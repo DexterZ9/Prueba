@@ -19,13 +19,18 @@ let handler = async (message, { conn, text }) => {
     const links = data.data.map((result, index) => {
       response += `${index + 1}. *${result.title}* - ${result.artist}\n`;
       response += `   ⏱️ ${result.duration} | 🌐 Publicado: ${result.publish}\n`;
+      response += `   🔗 ${result.url}\n\n`;
       return result.url;
     });
 
     response += "\n_Responde con el número del resultado para seleccionarlo._";
 
-    // Enviar los resultados y guardar los enlaces en el mensaje citado
-    await conn.reply(message.chat, response, message, { contextInfo: { links } });
+    // Enviar el mensaje con los resultados
+    await conn.reply(message.chat, response, message);
+
+    // Guardar los enlaces en memoria temporal
+    conn.tempLinks = conn.tempLinks || {};
+    conn.tempLinks[message.chat] = links;
 
   } catch (error) {
     console.error(error);
@@ -33,11 +38,11 @@ let handler = async (message, { conn, text }) => {
   }
 };
 
-// Manejo de respuestas al mensaje citado
-handler.handleQuotedResponse = async (message, { conn, text }) => {
-  // Verificar si es un mensaje citado con enlaces guardados
-  if (message.quoted && message.quoted.contextInfo && message.quoted.contextInfo.links) {
-    const links = message.quoted.contextInfo.links;
+// Manejo de respuestas al mensaje
+handler.handleResponse = async (message, { conn, text }) => {
+  // Verificar si hay enlaces temporales para el chat
+  if (conn.tempLinks && conn.tempLinks[message.chat]) {
+    const links = conn.tempLinks[message.chat];
 
     // Validar que el texto sea un número
     if (/^\d+$/.test(text)) {
@@ -55,7 +60,7 @@ handler.handleQuotedResponse = async (message, { conn, text }) => {
       return message.reply("⚠️ Por favor, ingresa solo un número válido.");
     }
   } else {
-    return message.reply("⚠️ Por favor, responde a un mensaje con resultados.");
+    return message.reply("⚠️ No hay resultados disponibles para seleccionar. Realiza una búsqueda primero.");
   }
 };
 
