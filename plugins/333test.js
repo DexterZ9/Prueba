@@ -1,8 +1,6 @@
 import { apis } from '../exports.js';
 import axios from 'axios';
 
-let searchResults = {}; // Variable global para almacenar los resultados temporalmente
-
 let handler = async (m, { conn, text }) => {
   if (!text) {
     return m.reply("_*[ ⚠️ ] Ingresa lo que quieres buscar en Spotify*_");
@@ -18,19 +16,19 @@ let handler = async (m, { conn, text }) => {
 
     // Crear un mensaje con los resultados numerados
     let response = `🎵 *Resultados para:* ${text}\n\n`;
-    const links = data.data.map((result, index) => {
+    let links = [];
+    data.data.forEach((result, index) => {
       response += `${index + 1}. *${result.title}* - ${result.artist}\n`;
       response += `   ⏱️ ${result.duration} | 🌐 Publicado: ${result.publish}\n`;
-      return result.url;
+      links.push(result.url);
     });
 
     response += "\n_Responde con el número del resultado para seleccionarlo._";
 
-    // Guardar los enlaces temporalmente usando el ID del chat
-    searchResults[m.chat] = links;
-
-    // Enviar el mensaje con los resultados
-    await conn.reply(m.chat, response, m);
+    // Enviar el mensaje con los resultados y guardar el contexto
+    m.reply(response);
+    conn.spotifySearch = conn.spotifySearch || {};
+    conn.spotifySearch[m.chat] = { links, quoted: m };
 
   } catch (error) {
     console.error(error);
@@ -38,34 +36,42 @@ let handler = async (m, { conn, text }) => {
   }
 };
 
-// Manejo de mensajes con números
-conn.on("chat-update", async (update) => {
-  if (!update.messages) return;
-
-  const m = update.messages[0];
-  const chatId = m.key.remoteJid;
-  const text = m.message?.conversation || "";
-
-  // Verificar si hay resultados guardados para este chat
-  if (searchResults[chatId] && /^\d+$/.test(text)) {
-    const links = searchResults[chatId];
-    const index = parseInt(text, 10) - 1;
-
-    // Validar el índice ingresado
-    if (index < 0 || index >= links.length) {
-      return conn.reply(chatId, "⚠️ El número ingresado no corresponde a ningún resultado.", m);
-    }
-
-    // Enviar el enlace correspondiente
-    const selectedLink = links[index];
-    await conn.reply(chatId, `✅ Aquí tienes el enlace:\n${selectedLink}`, m);
-
-    // Opcional: Limpiar los resultados después de usarlos
-    delete searchResults[chatId];
+// Manejador previo para procesar respuestas
+handler.before = async function (m) {
+  if (!m.quoted || !m.quoted.fromMe || !m.quoted.isBaileys || !/🎵 \*Resultados para:/.test(m.quoted.text)) {
+    return true;
   }
-});
+
+  const id = m.chat;
+  const searchContext = this.spotifySearch?.[id];
+
+  if (!searchContext) {
+    return m.reply("⚠️ La búsqueda ya ha terminado o no se encontraron resultados.");
+  }
+
+  const { links, quoted } = searchContext;
+
+  if (m.quoted.id !== quoted.id) {
+    return true; // No es el mensaje esperado
+  }
+
+  // Validar si el mensaje es un número válido
+  if (!/^\d+$/.test(m.text)) {
+    return m.reply("⚠️ Por favor, responde con un número válido.");
+  }
+
+  const index = parseInt(m.text, 10) - 1;
+  if (index < 0 || index >= links.length) {
+    return m.reply("⚠️ El número ingresado no corresponde a ningún resultado.");
+  }
+
+  // Enviar el enlace correspondiente
+  await m.reply(`✅ Aquí tienes el enlace:\n${links[index]}`);
+
+  // Limpiar el contexto de búsqueda
+  delete this.spotifySearch[id];
+};
 
 handler.command = ['spotifysearch', 'sp888'];
-
 export default handler;
         
