@@ -39,13 +39,13 @@ _*🎶 Enviando música...*_`.trim();
 
         //＼／＼／＼／＼／＼／ DESCARGAR ＼／＼／＼／＼／＼／
     
-        const apiUrl = `https://delirius-apiofc.vercel.app/download/spotifydl?url=${encodeURIComponent(url)}`;
+        const apiUrl = `https://api.siputzx.my.id/api/d/spotify?url=${encodeURIComponent(url)}`;
         const response = await fetch(apiUrl);
         const result = await response.json();
         
-        if (result.data.url) {
-            const downloadUrl = result.data.url;
-            const filename = `${result.data.title || 'audio'}.mp3`;
+        if (result.download) {
+            const downloadUrl = result.download;
+            const filename = `${result.metadata.name || 'audio'}.mp3`;
             await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, fileName: filename, mimetype: 'audio/mpeg', caption: `╭━❰  *SPOTIFY*  ❱━⬣\n${filename}\n╰━❰ *${botname}* ❱━⬣`, quoted: m });
         } else {
             throw new Error('_*[ ❌ ] Ocurrió un error al descargar el archivo mp3_');
